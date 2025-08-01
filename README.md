@@ -1,25 +1,26 @@
-# Grumpy Card Collector App 🃏🦈
+# 🦈 CardCollector
 
-A fun, accessible card collection game for younger audiences—part of the Grumpy Shark Adventures project. This standalone app allows players to match cards, earn badges, and view their growing collection in a joyful, underwater-themed interface.
-
----
-
-## 🎮 Features
-
-- 🃏 **Card Matching Game** with custom illustrations
-- 🏅 **Badge System** that tracks player achievements
-- 📘 **Collectible Gallery** that grows as players play
-- 🧑‍🦯 **Accessibility Enhancements** (e.g. voice narration support)
-- 🌈 Visual polish with floating animations and ocean aesthetics
+**An interactive children's book experience featuring Grumpy Shark and friends.**  
+Collect magical cards, unlock surprises, and dive into a world of playful storytelling.
 
 ---
 
-## 🛠 Tech Stack
+## 🌟 Features
 
-- Python + Flask
-- HTML / CSS / JavaScript
-- Responsive design for tablets and touch screens
-- Hosting-ready with Docker + Fly.io (or Netlify if using static version)
+- 🧒 Kid-friendly interface with bold visuals and gentle feedback
+- 🎴 Dynamic card collection system with celebratory unlocks
+- 📚 Story-driven pages featuring Grumpy Shark’s adventures
+- 🧩 Modular design for easy expansion and customization
+- 🎨 Accessible layout and responsive design
 
 ---
 
+## 🚀 Getting Started
+
+To run locally:
+
+```bash
+git clone https://github.com/Andy124-bot/CardCollector.git
+cd CardCollector
+open index.html
+```
