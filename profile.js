@@ -128,6 +128,7 @@ function normalizeCardName(name) {
 
 // 🎯 Unlock card logic
 function unlockStarCard(cardName) {
+  const filename = normalizeCardName(cardName);
   const earnedStarCards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
   if (!earnedStarCards.includes(filename)) {
     earnedStarCards.push(filename);
@@ -136,9 +137,6 @@ function unlockStarCard(cardName) {
   }
 }
 
-function normalizeCardName(name) {
-  return name.trim().split('/').pop().replace('.png', '') + '.png';
-}
 
 
 // 🎴 Modular Gold Star Card renderer
@@ -148,7 +146,17 @@ function renderCollectedCards(highlightedCard = null) {
   const totalCardCount = document.getElementById("total-card-count");
 
   const totalCards = 26;
-  const earnedStarCards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
+  let earnedStarCards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
+
+  // 🧼 Ensure all filenames end with .png
+  earnedStarCards = earnedStarCards.map(name => name.endsWith('.png') ? name : name + '.png');
+  localStorage.setItem('earnedStarCards', JSON.stringify(earnedStarCards));
+
+  // 🧪 Debug: Log each card being rendered
+  earnedStarCards.forEach(filename => {
+    console.log("🃏 Rendering card:", filename);
+  });
+
   const remaining = totalCards - earnedStarCards.length;
 
   if (collectedCardCount) {
@@ -173,24 +181,13 @@ function renderCollectedCards(highlightedCard = null) {
             <div class="card-inner">
               <div class="card-front">
                 <img src="/Gold_Star_Cards/${filename}" alt="${name}"
-     onerror="if (!this.src.includes('fallback.png')) {
-  this.src='/Gold_Star_Cards/fallback.png';
-  this.classList.add('broken');
-}"
+                  onerror="if (!this.src.includes('fallback.png')) { this.src='/Gold_Star_Cards/dad_gill.png'; this.classList.add('broken'); }">
                 <div class="card-name">${name}</div>
               </div>
             </div>
           </div>
         `;
-        
-        
       }).join('');
-      const cards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
-const cleaned = cards.map(name => name.endsWith('.png') ? name : name + '.png');
-localStorage.setItem('earnedStarCards', JSON.stringify(cleaned));
-
-
-
 }
 
 

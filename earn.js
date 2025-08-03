@@ -454,16 +454,21 @@ function narrateReward(type, name) {
     speakText(message, type);
 }
 
-function awardStarCard(cardName) {
-    const earnedStarCards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
+function getFilenameFromCardName(name) {
+  return name.toLowerCase().replace(/\s+/g, '_') + '.png';
+}
 
+function awardStarCard(cardName) {
     if (!cardName || typeof cardName !== "string") return;
 
-    if (!earnedStarCards.includes(cardName)) {
-        earnedStarCards.push(cardName);
+    const filename = getFilenameFromCardName(cardName); // e.g. "jack_gill.png"
+    const earnedStarCards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
+
+    if (!earnedStarCards.includes(filename)) {
+        earnedStarCards.push(filename);
         localStorage.setItem('earnedStarCards', JSON.stringify(earnedStarCards));
 
-        narrateReward("star", cardName);
+        narrateReward("star", cardName); // still use display name for voice
 
         confetti({
             particleCount: 100,
