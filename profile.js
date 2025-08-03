@@ -72,31 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
   }
 
-  // 🎴 Render Gold Star Cards
-  if (collectedStarContainer) {
-    const remaining = totalCards - earnedStarCards.length;
-    collectedCardCount.textContent = `Collected Cards: ${earnedStarCards.length}`;
-    totalCardCount.textContent = remaining === 0
-      ? `🎉 Collection Complete! All ${totalCards} cards collected!`
-      : `Remaining Cards: ${remaining} / ${totalCards}`;
-
-    collectedStarContainer.innerHTML = earnedStarCards.length === 0
-      ? "<p>No Gold Star Cards collected yet. Spin the Reef Wheel to earn some!</p>"
-      : earnedStarCards.map(filename => {
-          const name = filename.replace('.png', '').replace(/_/g, ' ');
-          return `
-            <div class="card collected">
-              <div class="card-inner">
-                <div class="card-front">
-                  <img src="Gold_Star_Cards/${filename}" alt="${name}">
-                  <div class="card-name">${name}</div>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-  }
-
   // 📊 Poll Logic
   if (pollForm && resultBox) {
     pollForm.addEventListener("submit", event => {
@@ -122,6 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(() => resultBox.textContent = "⚠️ Network error. Reef signal lost.");
     });
   }
+  renderCollectedCards(); // ✅ Show collected cards on page load
+
+  const cards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
+const cleaned = cards.map(name => name.endsWith('.png') ? name : name + '.png');
+localStorage.setItem('earnedStarCards', JSON.stringify(cleaned));
 });
 
 // 🎉 Popup Logic
@@ -149,7 +129,6 @@ function normalizeCardName(name) {
 // 🎯 Unlock card logic
 function unlockStarCard(cardName) {
   const earnedStarCards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
-  const filename = normalizeCardName(cardName); // auto adds .png
   if (!earnedStarCards.includes(filename)) {
     earnedStarCards.push(filename);
     localStorage.setItem('earnedStarCards', JSON.stringify(earnedStarCards));
@@ -193,16 +172,30 @@ function renderCollectedCards(highlightedCard = null) {
           <div class="card collected ${isNew ? 'new-card' : ''}">
             <div class="card-inner">
               <div class="card-front">
-                <img src="Gold_Star_Cards/${filename}" alt="${name}">
+                <img src="/Gold_Star_Cards/${filename}" alt="${name}"
+     onerror="if (!this.src.includes('fallback.png')) {
+  this.src='/Gold_Star_Cards/fallback.png';
+  this.classList.add('broken');
+}"
                 <div class="card-name">${name}</div>
               </div>
             </div>
           </div>
         `;
+        
+        
       }).join('');
+      const cards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
+const cleaned = cards.map(name => name.endsWith('.png') ? name : name + '.png');
+localStorage.setItem('earnedStarCards', JSON.stringify(cleaned));
+
+
+
 }
 
+
 // 🎵 Music Controls
+
 function stopMusicOnly() {
   const bgMusic = document.getElementById('bg-music');
   const toggleBtn = document.getElementById('toggle-music');

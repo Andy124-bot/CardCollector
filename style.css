@@ -1059,3 +1059,7 @@ button[onclick^="stopMusicOnly"]:hover {
     text-align: center;
 }
 
+img.broken {
+    border: 2px dashed red;
+    opacity: 0.6;
+}
