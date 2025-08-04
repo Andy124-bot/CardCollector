@@ -151,7 +151,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const characters = [...characterCards, ...awardCards];
     const getImagePath = (filename) =>
-        filename.includes("_award") ? `BADGES/${filename}` : `Gold_Star_Cards/${filename}`;
+  filename.includes("_award")
+    ? `BADGES/${safeFilename(filename)}`
+    : `Gold_Star_Cards/${safeFilename(filename)}`;
 
     const mainContainer = document.getElementById("star-card-collection");
     const awardContainer = document.getElementById("award-collection");
@@ -207,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="card-inner" title="${isCollected ? 'Unlocked!' : 'Locked. Match to earn.'}">
         <div class="card-front">
           <img src="${getImagePath(name)}" alt="${displayName}">
-          <div class="card-name">${displayName}</div>
+          
         </div>
         <div class="card-back">
           <img src="Gold_Star_Cards/card-back.png" alt="Card back">
@@ -282,13 +284,34 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function checkCompletionAndShowPopup() {
-        const totalStarCards = characterCards.length;
-        const matchedStarCards = collectedUnique.filter(name => characterCards.includes(name));
-        if (matchedStarCards.length === totalStarCards) {
-            document.getElementById("completion-popup").classList.remove("hidden");
-        }
+    function renderBadgeCard(imagePath, labelText) {
+  return `
+    <div class="badge-card">
+      <img src="${imagePath}" alt="${labelText}" class="badge-image">
+      <div class="badge-label">${labelText}</div>
+    </div>
+  `;
+}
+
+function safeFilename(name) {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '_')           // Replace spaces with underscores
+    .replace(/[^a-z0-9_\-\.]/g, '') // Remove unsafe characters
+    .replace(/\.{2,}/g, '.');       // Prevent multiple dots
+}
+
+function checkCompletionAndShowPopup() {
+    const totalStarCards = characterCards.length;
+    const matchedStarCards = collectedUnique.filter(name => characterCards.includes(name));
+    if (matchedStarCards.length === totalStarCards) {
+        const popup = document.getElementById('completion-popup');
+        popup.classList.remove("hidden");
+        popup.classList.add("celebrate");
+        setTimeout(() => popup.classList.remove("celebrate"), 2000);
     }
+}
 
     function closePopup() {
         document.getElementById("completion-popup").classList.add("hidden");

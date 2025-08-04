@@ -182,7 +182,7 @@ function renderCollectedCards(highlightedCard = null) {
               <div class="card-front">
                 <img src="/Gold_Star_Cards/${filename}" alt="${name}"
                   onerror="if (!this.src.includes('fallback.png')) { this.src='/Gold_Star_Cards/dad_gill.png'; this.classList.add('broken'); }">
-                <div class="card-name">${name}</div>
+                
               </div>
             </div>
           </div>
