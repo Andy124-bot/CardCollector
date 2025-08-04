@@ -380,16 +380,11 @@ cards.forEach((filename) => {
   card.className = 'card';
   card.setAttribute('aria-label', normalize(filename));
   card.innerHTML = `
-  <div class="card-inner">
-    <div class="card-front">
-      <img src="Gold_Star_Cards/card-back.png" alt="Card Back">
+    <div class="card-inner">
+      <div class="card-front" style="background: url('Gold_Star_Cards/card-back.png') center/cover no-repeat;"></div>
+      <div class="card-back" style="background: url('Gold_Star_Cards/${filename}') center/cover no-repeat;"></div>
     </div>
-    <div class="card-back">
-      <img src="${imagePath}" alt="${getCardName(imagePath)}">
-      <div class="card-label">${getCardName(imagePath)}</div>
-    </div>
-  </div>
-`;
+  `;
   board.appendChild(card);
 
   card.addEventListener('click', () => {
