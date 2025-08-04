@@ -380,11 +380,16 @@ cards.forEach((filename) => {
   card.className = 'card';
   card.setAttribute('aria-label', normalize(filename));
   card.innerHTML = `
-    <div class="card-inner">
-      <div class="card-front" style="background: url('Gold_Star_Cards/card-back.png') center/cover no-repeat;"></div>
-      <div class="card-back" style="background: url('Gold_Star_Cards/${filename}') center/cover no-repeat;"></div>
+  <div class="card-inner">
+    <div class="card-front">
+      <img src="Gold_Star_Cards/card-back.png" alt="Card Back">
     </div>
-  `;
+    <div class="card-back">
+      <img src="${imagePath}" alt="${getCardName(imagePath)}">
+      <div class="card-label">${getCardName(imagePath)}</div>
+    </div>
+  </div>
+`;
   board.appendChild(card);
 
   card.addEventListener('click', () => {
@@ -454,21 +459,16 @@ function narrateReward(type, name) {
     speakText(message, type);
 }
 
-function getFilenameFromCardName(name) {
-  return name.toLowerCase().replace(/\s+/g, '_') + '.png';
-}
-
 function awardStarCard(cardName) {
-    if (!cardName || typeof cardName !== "string") return;
-
-    const filename = getFilenameFromCardName(cardName); // e.g. "jack_gill.png"
     const earnedStarCards = JSON.parse(localStorage.getItem('earnedStarCards')) || [];
 
-    if (!earnedStarCards.includes(filename)) {
-        earnedStarCards.push(filename);
+    if (!cardName || typeof cardName !== "string") return;
+
+    if (!earnedStarCards.includes(cardName)) {
+        earnedStarCards.push(cardName);
         localStorage.setItem('earnedStarCards', JSON.stringify(earnedStarCards));
 
-        narrateReward("star", cardName); // still use display name for voice
+        narrateReward("star", cardName);
 
         confetti({
             particleCount: 100,
