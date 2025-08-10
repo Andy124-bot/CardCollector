@@ -1044,3 +1044,23 @@ button[onclick^="stopMusicOnly"]:hover {
     text-align: center;
 }
 
+.card-preview.glow {
+    animation: popIn 0.6s ease-out;
+    box-shadow: 0 0 12px gold;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

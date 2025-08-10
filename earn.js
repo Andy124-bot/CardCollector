@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    
     const canvas = document.getElementById("wheel-canvas");
     const spinButton = document.getElementById("spin-button");
     const spinResult = document.getElementById("spin-result");
+    
 
     // ✅ Voice Initialization – load voices as soon as available
 window.speechSynthesis.onvoiceschanged = () => {
@@ -291,6 +293,8 @@ board.innerHTML = ""; // ✅ Clear before re-rendering
                 timerEl.textContent = "";
                 return;
             }
+
+            const unlockedCard = document.getElementById("spin-unlocked-card");
 
             const hours = Math.floor(diff / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
